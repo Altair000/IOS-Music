@@ -25,10 +25,10 @@ def document(message):
         
         # Llamar a la función con el número total de pasos
         progress_bar(100)
-
+        bot.send_message(message.chat.id, "1")
         # Subir el archivo a Diawi
         install_link = upload_to_diawi(file_name)
-
+        bot.send_message(message.chat.id, "2")
         if install_link:
             markup = telebot.types.InlineKeyboardMarkup()
             install_button = telebot.types.InlineKeyboardButton("Instalar App", url=install_link)
