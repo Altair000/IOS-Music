@@ -39,14 +39,15 @@ def upload_to_diawi(file_path, bot, chat_id):
     # Revisar el estado periódicamente hasta obtener el enlace
     attempts = 0
     max_attempts = 10  # Número máximo de intentos para verificar el estado
-
+    print("sign")
     # Envía un mensaje inicial al usuario
     bot.send_message(chat_id, "Tu aplicación se está procesando, por favor espera...")
-
+    print("sign")
     while attempts < max_attempts:
         response = requests.get(url=url_status, data=payload)
-    
+        print("sign")
         if response.status_code == 200:
+            print("sign")
             link_info = response.json()
             print(link_info)
             if link_info['status'] == 2000:  # Archivo listo para descargar
