@@ -13,36 +13,43 @@ def upload_to_diawi(file_path):
     files = {
         'file': open(file_path, 'rb')
     }
+    
+    # Subir el archivo a Diawi
     req = requests.post(url_1, data=data, files=files)
     
     if req.status_code == 200:
         j = req.json()
-        if j:
-            return j['job']
+        if 'job' in j:
+            job = j['job']
         else:
-            print("Error en la subida:", result)
+            print("Error en la subida:", j)
             return None
     else:
         print("Error al contactar Diawi:", req.status_code)
         return None
-        
-    url = 'https://upload.diawi.com/status'
+
+    # Comprobar el estado de la subida y obtener el enlace de instalación
+    url_status = 'https://upload.diawi.com/status'
     
     payload = {
-        'token': os.getenv('Diawi'),
+        'token': DIAWI,
         'job': job
-        }
-    
-    response = requests.post(url=url, data=payload)
-    
-    if response.status_code == 200:
-        link = response.json()
-        if link['message'] == 'OK':
-            return link['link']
+    }
+
+    # Revisar el estado periódicamente hasta obtener el enlace
+    while True:
+        response = requests.post(url=url_status, data=payload)
+        
+        if response.status_code == 200:
+            link_info = response.json()
+            if link_info['status'] == 2000:  # El archivo está listo para descargar
+                return link_info['link']
+            elif link_info['status'] in [4000, 4001]:  # Errores de Diawi
+                print('Error en la subida:', link_info['message'])
+                return None
+            else:
+                # Estado aún no completado, seguir esperando
+                time.sleep(5)  # Espera 5 segundos antes de volver a consultar
         else:
-            print('Error en la Subida, result')
-    else:
-        print('Error al contactar Diawi:', response.status_code)
-    
-    
-    
+            print('Error al contactar Diawi:', response.status_code)
+            return None
