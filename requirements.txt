@@ -1,5 +1,5 @@
 requests
-os
+pyTelegramBotAPI
 telebot
 tqdm
 time
