@@ -27,7 +27,7 @@ def document(message):
         progress_bar(message.chat.id, bot)
         
         # Subir el archivo a Diawi
-        install_link = upload_to_diawi(file_name, message.chat.id, bot)
+        install_link = upload_to_diawi(file_name, bot, message.chat.id)
         print("document")
         if install_link:
             markup = telebot.types.InlineKeyboardMarkup()
