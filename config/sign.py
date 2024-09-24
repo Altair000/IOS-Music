@@ -46,7 +46,7 @@ def upload_to_diawi(file_path, bot, chat_id):
     print("sign")
     while attempts < max_attempts:
         response = requests.get(url=url_status, data=payload)
-        print("sign")
+        print(response.text)
         if response.status_code == 200:
             print("sign")
             link_info = response.json()
