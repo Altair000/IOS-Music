@@ -3,7 +3,7 @@ from config.config import DIAWI
 
 # Función para subir el archivo a Diawi
 def upload_to_diawi(file_path):
-    url = 'https://upload.diawi.com/'
+    url_1 = 'https://upload.diawi.com/'
     data = {
         'token': DIAWI,
         'wall_of_apps': 'false',  # Opciones de configuración de Diawi
@@ -13,15 +13,36 @@ def upload_to_diawi(file_path):
     files = {
         'file': open(file_path, 'rb')
     }
-    response = requests.post(url, data=data, files=files)
+    req = requests.post(url_1, data=data, files=files)
     
-    if response.status_code == 200:
-        result = response.json()
-        if result['status'] == 'ok':
-            return result['link']
+    if req.status_code == 200:
+        j = req.json()
+        if j:
+            return j['job']
         else:
             print("Error en la subida:", result)
             return None
     else:
-        print("Error al contactar Diawi:", response.status_code)
+        print("Error al contactar Diawi:", req.status_code)
         return None
+        
+    url = 'https://upload.diawi.com/status'
+    
+    payload = {
+        'token': os.getenv('Diawi'),
+        'job': job
+        }
+    
+    response = requests.post(url=url, data=payload)
+    
+    if response.status_code == 200:
+        link = response.json()
+        if link['message'] == 'OK':
+            return link['link']
+        else:
+            print('Error en la Subida, result')
+    else:
+        print('Error al contactar Diawi:', response.status_code)
+    
+    
+    
