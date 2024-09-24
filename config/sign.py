@@ -38,7 +38,7 @@ def upload_to_diawi(file_path):
 
     # Revisar el estado periódicamente hasta obtener el enlace
     attempts = 0
-max_attempts = 10  # Número máximo de intentos para verificar el estado
+    max_attempts = 10  # Número máximo de intentos para verificar el estado
 
     # Envía un mensaje inicial al usuario
     bot.send_message(message.chat.id, "Tu aplicación se está procesando, por favor espera...")
