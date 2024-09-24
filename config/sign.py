@@ -21,6 +21,7 @@ def upload_to_diawi(file_path, bot, chat_id):
         j = req.json()
         if 'job' in j:
             job = j['job']
+            print(job)
         else:
             print("Error en la subida:", j)
             return None
