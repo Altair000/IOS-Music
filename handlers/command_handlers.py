@@ -28,11 +28,13 @@ def document(message):
         
         # Subir el archivo a Diawi
         install_link = upload_to_diawi(file_name, message.chat.id, bot)
-        
+        print("document")
         if install_link:
             markup = telebot.types.InlineKeyboardMarkup()
             install_button = telebot.types.InlineKeyboardButton("Instalar App", url=install_link)
+            print("document")
             markup.add(install_button) 
+            print("document")
             bot.send_message(message.chat.id, "Tu aplicación está lista para instalar. Password:(1234):", reply_markup=markup)
             
         # Eliminar el archivo temporal
