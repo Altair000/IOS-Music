@@ -4,7 +4,7 @@ TOKEN = os.getenv('Token')
 bot = telebot.TeleBot(TOKEN)
 DIAWI = os.getenv('Diawi')
 
-def progress_bar(chat_id, bot):
+def progress_bar(message.chat.id, bot):
     total_steps = 10
     msg = bot.send_message(chat_id, "Progreso: 0%")
     
