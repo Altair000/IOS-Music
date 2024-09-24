@@ -38,7 +38,7 @@ def upload_to_diawi(file_path):
 
     # Revisar el estado periódicamente hasta obtener el enlace
     while True:
-        response = requests.get(url=url_status, data=payload)
+        response = requests.get(url=url_status, params=payload)
         
         if response.status_code == 200:
             link_info = response.json()
