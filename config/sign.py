@@ -37,20 +37,36 @@ def upload_to_diawi(file_path):
     }
 
     # Revisar el estado periódicamente hasta obtener el enlace
-    while True:
-        response = requests.get(url=url_status, params=payload)
-        
+    attempts = 0
+max_attempts = 10  # Número máximo de intentos para verificar el estado
+
+    # Envía un mensaje inicial al usuario
+    bot.send_message(message.chat.id, "Tu aplicación se está procesando, por favor espera...")
+
+    while attempts < max_attempts:
+        response = requests.get(url=url_status, data=payload)
+    
         if response.status_code == 200:
             link_info = response.json()
-            print(link_info)
-            if link_info['status'] == 2000:  # El archivo está listo para descargar
+            if link_info['status'] == 2000:  # Archivo listo para descargar
                 return link_info['link']
+            elif link_info['status'] == 2001:  # Procesando
+                if attempts % 3 == 0:  # Envía un mensaje cada 3 intentos
+                    bot.send_message(message.chat.id, "Aún estamos esperando a que tu aplicación sea procesada...")
+                time.sleep(5)  # Espera antes de volver a consultar
             elif link_info['status'] in [4000, 4001]:  # Errores de Diawi
-                print('Error en la subida:', link_info['message'])
+                bot.send_message(message.chat.id, 'Error en la subida: {}'.format(link_info['message']))
                 return None
-            else:
-                # Estado aún no completado, seguir esperando
-                time.sleep(5)  # Espera 5 segundos antes de volver a consultar
         else:
-            print('Error al contactar Diawi:', response.status_code)
+            bot.send_message(message.chat.id, 'Error al contactar Diawi: {}'.format(response.status_code))
             return None
+    
+        attempts += 1  # Incrementar el contador de intentos
+
+        # Si se alcanzó el máximo de intentos
+        bot.send_message(message.chat.id, "No se pudo obtener el enlace después de varios intentos.")
+        return None  # O un mensaje de error
+
+    
+    
+    
