@@ -1,0 +1,6 @@
+requests
+os
+telebot
+tqdm
+time
+flask
