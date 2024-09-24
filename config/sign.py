@@ -42,6 +42,7 @@ def upload_to_diawi(file_path):
         
         if response.status_code == 200:
             link_info = response.json()
+            print(link_info)
             if link_info['status'] == 2000:  # El archivo está listo para descargar
                 return link_info['link']
             elif link_info['status'] in [4000, 4001]:  # Errores de Diawi
