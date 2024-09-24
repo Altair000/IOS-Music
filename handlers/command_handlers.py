@@ -24,21 +24,17 @@ def document(message):
             new_file.write(downloaded_file)
         
         # Llamar a la función con el número total de pasos
-        progress_bar(100)
-        bot.send_message(message.chat.id, "1")
+        progress_bar(message.chat.id, bot)
+        
         # Subir el archivo a Diawi
         install_link = upload_to_diawi(file_name)
-        bot.send_message(message.chat.id, "2")
+        
         if install_link:
             markup = telebot.types.InlineKeyboardMarkup()
-            bot.send_message(message.chat.id, "3")
             install_button = telebot.types.InlineKeyboardButton("Instalar App", url=install_link)
-            bot.send_message(message.chat.id, "4")
-            markup.add(install_button)
-            bot.send_message(message.chat.id, "5")
+            markup.add(install_button) 
             bot.send_message(message.chat.id, "Tu aplicación está lista para instalar. Password:(1234):", reply_markup=markup)
-            bot.send_message(message.chat.id, "6")
-      
+            
         # Eliminar el archivo temporal
         os.remove(file_name)
     else:
