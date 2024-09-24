@@ -37,7 +37,7 @@ def document(message):
             markup.add(install_button)
             bot.send_message(message.chat.id, "5")
             bot.send_message(message.chat.id, "Tu aplicación está lista para instalar. Password:(1234):", reply_markup=markup)
-           bot.send_message(message.chat.id, "6")
+            bot.send_message(message.chat.id, "6")
       
         # Eliminar el archivo temporal
         os.remove(file_name)
