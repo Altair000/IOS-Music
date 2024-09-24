@@ -6,7 +6,7 @@ from handlers.command_handlers import register_command_handlers
 from handlers.callback_handlers import register_callback_handlers
 from config.config import bot, TOKEN
 
-WEBHOOK_URL = f''
+WEBHOOK_URL = f'https://ioszeusbot-9d0e3e1df959.herokuapp.com/'
 
 app = Flask(__name__)
 
